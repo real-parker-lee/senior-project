@@ -1,0 +1,29 @@
+# Senior-Project
+Code I wrote for my senior project in mathematics research, in which I attempt to find an algorithm that can find valid (0,1)-matrices that satisfy given row and column sums and have some number of 0-entries vertically following each 1-entry.
+
+## Usage
+Simply quickload this system in any common lisp REPL and call it's functions. Docstrings have been included in all functions for the purpose of documentation.
+
+This was developed and tested using SBCL.
+
+### Source Map
+- `src/enumeration.lisp` contains code that counts and generates things.
+- `src/validation.lisp` contains code that checks conditions (mostly existence criteria).
+- `src/calculation.lisp` contains functions that aren't general enough to be in `utils`, but are still relevant to the core concepts of the research.
+- `src/utils.lisp` contains smaller functions and macros used in the other files.
+- `src/main.lisp` is where the main algorithms will go.
+
+## Installation
+Simply clone the repository in your quicklisp `local-projects` folder, then update `system-index.txt` to point to this new directory.
+
+## Author
+
+* Parker Lee (plee25006@byui.edu)
+
+## Copyright
+
+Copyright (c) 2026 Parker Lee (plee25006@byui.edu)
+
+## License
+
+Licensed under the AGPL-3.0-only License.
