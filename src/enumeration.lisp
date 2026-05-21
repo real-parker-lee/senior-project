@@ -66,12 +66,4 @@
   )
 )
 
-(defun count-row-vectors (verts degree-list &key (padding 1))
-  "Returns the number of valid row vectors for given VERTS and DEGREEs. Supports PADDING option. Does not count duplicates."
-  (/ (apply '* (mapcar (lambda (d) (count-columns verts d :padding padding)) degree-list))
-     ;; product of columns with degree i for i from 0 to c
-     (apply '* (mapcar (lambda (r) (factorial r)) (mapcar (lambda (x) (cdr x)) (count-repeats degree-list))))
-  )
-)
-
 
