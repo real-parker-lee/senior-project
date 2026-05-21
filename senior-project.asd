@@ -7,7 +7,7 @@
   :components ((:module "src"
                 :components
                 ((:file "utils")
-                 (:file "calculation" :depends-on ("utils"))
+                 (:file "calculation" :depends-on ("utils" "enumeration"))
                  (:file "validation" :depends-on ("utils"))
                  (:file "enumeration" :depends-on ("utils"))
                  (:file "main" :depends-on ("validation" "enumeration" "calculation" "utils")))))
