@@ -6,6 +6,7 @@
            #:make-solution-list
            #:solution-to-csv-part
            #:csv-from-params
+           #:group-solutions
   )
 )
 (in-package :senior-project/calculation)
@@ -55,12 +56,28 @@
   )
 );; TODO: combine solutions with the same colsum, rowsum, and padding
 
-(defun csv-from-params (verts degree-list &key (padding 1) &key (stream t))
+(defun csv-from-params (verts degree-list &key (padding 1) (stream t))
   (format stream (apply 'concatenate 'string
                      (mapcar
                        (lambda (s) (solution-to-csv-part s))
                        (make-solution-list verts degree-list :padding padding)
                      )
               )
+  )
+)
+
+(defun group-solutions (solutions)
+  "group solutions by whether their row and column sums are the same, collecting the column vectors into a tree."
+  (let* (
+          (group-data (find-duplicates
+                        (mapcar (lambda (x) (list (solution-column-sums x) (solution-row-sums x) (solution-padding x)))
+                                solutions
+                        )
+                      )
+          )
+          (idx-groups (remove-duplicates (mapcar (lambda (d) (car d)) group-data) :test 'equal))
+          (indices (mapcar (lambda (i) (car i)) idx-groups))
+        )
+    (mapcar (lambda (i) (nth i solutions)) indices)
   )
 )

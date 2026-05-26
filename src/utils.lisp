@@ -4,6 +4,8 @@
            #:smoosh
            #:zip
            #:count-repeats
+           #:find-duplicates
+           #:search-and-delete
   )
 )
 (in-package :senior-project/utils)
@@ -53,4 +55,24 @@
       )
     )
   )
+)
+
+(defun find-duplicates (list &key (test 'equal))
+  (loop for key in (remove-duplicates list) collect
+    (cons
+      (search-and-delete nil
+        (loop for idx in (range 0 (list-length list)) collect
+          (if (funcall test key (nth idx list))
+              idx
+          )
+        )
+      )
+      key
+    )
+  )
+)
+
+(defun search-and-delete (value list)
+  "Remove all occurrences of a value from a list."
+  (remove-if (lambda (c) (eq c value)) list)
 )
