@@ -52,7 +52,7 @@
           (paddng (solution-padding     solution))
           (colmns (solution-columns     solution))
         )
-    (format nil "\"~s\",\"~s\",~s,\"~s\"~%" colsum rowsum paddng colmns)
+    (format nil "\"~s\",\"~s\",~s,\"~s\"~%" colsum rowsum paddng colmns) ;; FIX THIS ONLY PRINTING ONE SET OF COLUMNS.
   )
 );; TODO: combine solutions with the same colsum, rowsum, and padding
 
@@ -60,7 +60,7 @@
   (format stream (apply 'concatenate 'string
                      (mapcar
                        (lambda (s) (solution-to-csv-part s))
-                       (make-solution-list verts degree-list :padding padding)
+                       (group-solutions (make-solution-list verts degree-list :padding padding))
                      )
               )
   )
@@ -78,6 +78,14 @@
           (idx-groups (remove-duplicates (mapcar (lambda (d) (car d)) group-data) :test 'equal))
           (indices (mapcar (lambda (i) (car i)) idx-groups))
         )
-    (mapcar (lambda (i) (nth i solutions)) indices)
+    (mapcar (lambda (idxs) (make-solution
+                             :column-sums (solution-column-sums (nth (car idxs) solutions))
+                             :row-sums    (solution-row-sums (nth (car idxs) solutions))
+                             :padding     (solution-padding (nth (car idxs) solutions))
+                             :columns (mapcar (lambda (i) (solution-columns (nth i solutions))) idxs)
+                           )
+            )
+            idx-groups
+    )
   )
 )
