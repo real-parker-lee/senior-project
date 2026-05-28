@@ -52,9 +52,9 @@
           (paddng (solution-padding     solution))
           (colmns (solution-columns     solution))
         )
-    (format nil "\"~s\",\"~s\",~s,\"~s\"~%" colsum rowsum paddng colmns) ;; FIX THIS ONLY PRINTING ONE SET OF COLUMNS.
+    (format nil "\"~s\",\"~s\",~s,\"~s\",\"~s\"~%" colsum rowsum paddng colmns (list-length colmns)) 
   )
-);; TODO: combine solutions with the same colsum, rowsum, and padding
+)
 
 (defun csv-from-params (verts degree-list &key (padding 1) (stream t))
   (format stream (apply 'concatenate 'string
