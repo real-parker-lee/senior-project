@@ -7,6 +7,7 @@
            #:solution-to-csv-part
            #:csv-from-params
            #:group-solutions
+           #:majorizes
   )
 )
 (in-package :senior-project/calculation)
@@ -87,5 +88,28 @@
             )
             idx-groups
     )
+  )
+)
+
+(defun majorizes (vec1 vec2)
+  "Returns T if vec1 majorizes vec2, and NIL otherwise."
+  (let* (
+          (sizediff (abs (- (list-length vec1) (list-length vec2))))
+          (first-vector (reverse (if (<= (list-length vec1) (list-length vec2))
+                            (append vec1 (make-list sizediff :initial-element 0))
+                            vec1
+                        ))
+          )
+          (second-vector (reverse (if (<= (list-length vec2) (list-length vec1))
+                             (append vec2 (make-list sizediff :initial-element 0))
+                             vec2
+                         ))
+          )
+        )
+    (eval `(and ,@(loop for run on (range 0 (list-length first-vector)) collect
+      (<= (apply '+ (mapcar (lambda (x) (nth x first-vector)) run))
+          (apply '+ (mapcar (lambda (x) (nth x second-vector)) run))
+      )
+    )))
   )
 )
