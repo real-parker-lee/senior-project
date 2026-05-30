@@ -91,7 +91,7 @@
   )
 )
 
-(defun majorizes (vec1 vec2)
+(defun majorizes (vec1 vec2 &key (test '<=))
   "Returns T if vec1 majorizes vec2, and NIL otherwise."
   (let* (
           (sizediff (abs (- (list-length vec1) (list-length vec2))))
@@ -107,7 +107,7 @@
           )
         )
     (eval `(and ,@(loop for run on (range 0 (list-length first-vector)) collect
-      (<= (apply '+ (mapcar (lambda (x) (nth x first-vector)) run))
+      (funcall test (apply '+ (mapcar (lambda (x) (nth x first-vector)) run))
           (apply '+ (mapcar (lambda (x) (nth x second-vector)) run))
       )
     )))
